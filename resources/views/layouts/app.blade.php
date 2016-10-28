@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{ asset('/template/vendor/rs-plugin/css/navigation.css') }}" media="screen">
     <link rel="stylesheet" href="{{ asset('/template/vendor/circle-flip-slideshow/css/component.css') }}" media="screen">
     <link rel="stylesheet" href="{{ asset('/template/css/skins/default.css') }}">
+    <link rel="stylesheet" href="{{ asset('/template/vendor/jquery.toast/jquery.toast.css') }}">
     <link rel="stylesheet" href="{{ asset('/template/css/custom.css') }}">
     <script src="{{ asset('/template/vendor/modernizr/modernizr.js') }}"></script>
 
@@ -150,13 +151,13 @@
                                                                         <div class="recover-form">
                                                                             <span class="dropdown-mega-sub-title">Şifremi Sıfırla</span>
                                                                             <p>Aşağıdaki formu doldurduktan sonra şifrenizi değiştirebilmeniz için bir şifre sıfırlama maili alacaksınız.</p>
-
-                                                                            <form action="/" id="frmResetPassword" method="post">
+                                                                            <form id="frmResetPassword" role="form" method="POST" action="{{ url('/password/email') }}">
+                                                                                {{ csrf_field() }}
                                                                                 <div class="row">
                                                                                     <div class="form-group">
                                                                                         <div class="col-md-12">
                                                                                             <label>E-mail Adresiniz</label>
-                                                                                            <input type="text" value="" class="form-control input-lg">
+                                                                                            <input type="email"  name="email" value="{{ old('email') }}" id="email" value="" class="form-control input-lg">
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -255,7 +256,6 @@
         </div>
     </footer>
 </div>
-
 <script src="{{ asset('/template/vendor/jquery/jquery.js') }}"></script>
 <script src="{{ asset('/template/vendor/jquery.appear/jquery.appear.js') }}"></script>
 <script src="{{ asset('/template/vendor/jquery.easing/jquery.easing.js') }}"></script>
@@ -277,9 +277,39 @@
 <script src="{{ asset('/template/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js') }}"></script>
 <script src="{{ asset('/template/vendor/circle-flip-slideshow/js/jquery.flipshow.js') }}"></script>
 <script src="{{ asset('/template/js/views/view.home.js') }}"></script>
+<script src="{{ asset('/template/vendor/jquery.toast/jquery.toast.js') }}"></script>
 
 <script src="{{ asset('/template/js/custom.js') }}"></script>
 
 <script src="{{ asset('/template/js/theme.init.js') }}"></script>
+
+@if($errors->first())
+    @foreach($errors->all() as $error)
+        <script>
+            $(document).ready(function(){
+
+                $.toast({
+                    heading: 'Bilgilendirme',
+                    text: '{{ $error }}',
+                    showHideTransition: 'slide',
+                    icon: 'warning'
+                });
+
+            });
+        </script>
+    @endforeach
+@endif
+@if (session('status'))
+    <script>
+        $(document).ready(function() {
+            $.toast({
+                heading: 'Bilgilendirme',
+                text: '{{ session('status') }}',
+                showHideTransition: 'slide',
+                icon: 'success'
+            });
+        });
+    </script>
+@endif
 </body>
 </html>
