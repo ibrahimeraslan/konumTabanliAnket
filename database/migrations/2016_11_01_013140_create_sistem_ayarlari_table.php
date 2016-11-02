@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateSistemAyarlariTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('sistem_ayarlari', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('site_adi');
+            $table->float('ucret_kesintisi');
+            $table->string('admin_kullanici_adi');
+            $table->char('admin_sifre',200);
+            $table->string('site_mail');
+            $table->string('site_tel');
+            $table->string('site_adres');
+            $table->string('facebook');
+            $table->string('twitter');
+            $table->string('youtube');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('sistem_ayarlari');
+    }
+}
