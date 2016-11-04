@@ -143,7 +143,7 @@
                         <div class="col-md-3 col-sm-6">
                             <div class="counter">
                                 <strong data-to="352">352</strong>
-                                <label>Oluşturulmuş Anket</label>
+                                <label>Anket</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
