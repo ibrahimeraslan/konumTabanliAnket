@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->tinyInteger('tip');
             $table->tinyInteger('durum');
+            $table->string('api_token',65)->unique();
         });
     }
 

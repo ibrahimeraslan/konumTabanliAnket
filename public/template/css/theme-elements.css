@@ -5651,9 +5651,10 @@ section.timeline .timeline-box .owl-carousel {
 
 .call-to-action .call-to-action-content {
 	text-align: center;
-	width: 70%;
-	margin-left: 3%;
-	padding-top: 35px;
+//	width: 70%;
+//	margin-left: 3%;
+//	padding-top: 35px;
+	padding:20px;
 }
 
 .call-to-action .call-to-action-btn {

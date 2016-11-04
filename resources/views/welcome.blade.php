@@ -85,8 +85,13 @@
                     </div>
                     <div class="col-md-4">
                         <div class="get-started">
-                            <a href="#" class="btn btn-lg btn-primary">Hemen Başlayın</a>
-                            <div class="learn-more">veya <a href="index.html">yardım alın.</a></div>
+                            @if(Auth::guest())
+                                <a href="{{ URL::to('register') }}" class="btn btn-lg btn-primary">Hemen Başlayın</a>
+                            @else
+                                <a href="{{ URL::to('kullanici/panel') }}" class="btn btn-lg btn-success">Panelinize Gidin</a>
+                            @endif
+
+                            <div class="learn-more">veya <a href="{{ URL::to('page/iletisim') }}">yardım alın.</a></div>
                         </div>
                     </div>
                 </div>

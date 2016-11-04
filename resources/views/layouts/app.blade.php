@@ -73,14 +73,16 @@
 
                                 <ul class="nav nav-pills">
                                     <li class="hidden-xs">
-                                        <span class="ws-nowrap"><i class="fa fa-envelope"></i> info@trpoll.com</span>
+                                        <span class="ws-nowrap"><i class="fa fa-envelope"></i> {{ $ayarlar->site_mail }}</span>
                                     </li>
                                     <li class="hidden-xs">
-                                        <span class="ws-nowrap"><i class="fa fa-fax"></i> 0(212) 255 25 25</span>
+                                        <span class="ws-nowrap"><i class="fa fa-phone"></i> {{ $ayarlar->site_tel }}</span>
                                     </li>
-                                    <li>
-                                        <span class="ws-nowrap"><i class="fa fa-phone"></i> 0(212) 255 25 24</span>
-                                    </li>
+                                    <ul class="header-social-icons social-icons hidden-xs" style="margin:0; margin-left:10px;">
+                                        <li class="social-icons-facebook"><a href="{{ $ayarlar->facebook }}" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                                        <li class="social-icons-twitter"><a href="{{ $ayarlar->twitter }}" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                                        <li class="social-icons-youtube"><a href="{{ $ayarlar->youtube }}" target="_blank" title="Youtube"><i class="fa fa-youtube"></i></a></li>
+                                    </ul>
                                 </ul>
                             </nav>
                         </div>
@@ -89,15 +91,17 @@
                                 <button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main">
                                     <i class="fa fa-bars"></i>
                                 </button>
+
+
                                 <div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1 collapse">
                                     <nav>
                                         <ul class="nav nav-pills" id="mainNav">
-                                            <li class="dropdown"><a href="index.html">Anasayfa</a></li>
-                                            <li class="dropdown"><a href="index.html">Hakkımızda</a></li>
-                                            <li class="dropdown"><a href="index.html">Sık Sorulan Sorular</a></li>
-                                            <li class="dropdown"><a href="index.html">Sistem NasıL Çalışır?</a></li>
-                                            <li class="dropdown"><a href="yeni.html">Ne Kazandılar?</a></li>
-                                            <li class="dropdown"><a href="index.html">İLETİŞİM</a></li>
+                                            <li class="dropdown"><a href="{{ URL::to('/') }}">Anasayfa</a></li>
+                                            @foreach($sayfalar as $sayfa)
+                                                <li class="dropdown"><a href="{{ URL::to('page/show/'.$sayfa->id) }}">{{ $sayfa->sayfa_adi }}</a></li>
+                                            @endforeach
+                                            <li class="dropdown"><a href="{{ URL::to('page/sss') }}">Sık Sorulan Sorular</a></li>
+                                            <li class="dropdown"><a href="{{ URL::to('page/iletisim') }}">İLETİŞİM</a></li>
                                             @if (Auth::guest())
                                                 <li class="dropdown dropdown-mega dropdown-mega-signin signin" id="headerAccount">
                                                     <a class="dropdown-toggle" href="#">
@@ -145,7 +149,7 @@
                                                                                 </div>
                                                                             </form>
 
-                                                                            <p class="sign-up-info">Hesabınız yok mu? <a href="yeni.html" class="p-none m-none ml-xs">Hesap Oluştur</a></p>
+                                                                            <p class="sign-up-info">Hesabınız yok mu? <a href="{{ URL::to('/register/') }}" class="p-none m-none ml-xs">Hesap Oluştur</a></p>
 
                                                                         </div>
                                                                         <div class="recover-form">
@@ -179,7 +183,7 @@
                                                 </li>
                                             @else
                                                 <li class="dropdown dropdown-mega dropdown-mega-signin signin logged" id="headerAccount">
-                                                    <a class="dropdown-toggle" href="page-login.html">
+                                                    <a class="dropdown-toggle" href="#">
                                                         <i class="fa fa-user"></i> {{ Auth::user()->name }}
                                                     </a>
                                                     <ul class="dropdown-menu">
@@ -192,16 +196,16 @@
                                                                             <div class="img-thumbnail">
                                                                                 <img src="{{ URL::to('img/avatar/'.Auth::user()->avatar) }}" alt="">
                                                                             </div>
-                                                                            <p><strong>{{ Auth::user()->name }}</strong><span>CEO & Founder - Okler</span></p>
+                                                                            <p><strong>{{ Auth::user()->name }}</strong><span>@if(Auth::user()->tip==1) Normal Kullanıcı @elseif(Auth::user()->tip==2) Anket Veren @endif</span></p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-4">
                                                                         <ul class="list-account-options">
                                                                             <li>
-                                                                                <a href="#">Panelim</a>
+                                                                                <a href="{{ URL::to('/kullanici/panel') }}">Panelim</a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="#">Ayarlarım</a>
+                                                                                <a href="{{ URL::to('/kullanici/ayarlar') }}">Ayarlarım</a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -245,9 +249,8 @@
                     <div class="col-md-4">
                         <nav id="sub-menu">
                             <ul>
-                                <li><a href="page-faq.html">Hakkımızda</a></li>
-                                <li><a href="sitemap.html">Sık Sorulan Sorular</a></li>
-                                <li><a href="contact-us.html">İletişim</a></li>
+                                <li><a href="{{ URL::to('page/sss') }}">Sık Sorulan Sorular</a></li>
+                                <li><a href="{{ URL::to('page/iletisim') }}">İletişim</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -292,6 +295,7 @@
                     heading: 'Bilgilendirme',
                     text: '{{ $error }}',
                     showHideTransition: 'slide',
+                    hideAfter : 5000,
                     icon: 'warning'
                 });
 
@@ -306,6 +310,7 @@
                 heading: 'Bilgilendirme',
                 text: '{{ session('status') }}',
                 showHideTransition: 'slide',
+                hideAfter : 5000,
                 icon: 'success'
             });
         });

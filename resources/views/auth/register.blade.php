@@ -14,13 +14,6 @@
                                 <div class="featured-box featured-box-primary align-left mt-xlg">
                                     <div class="box-content">
                                         <h4 class="heading-primary text-uppercase mb-md">Yeni Hesap Oluştur</h4>
-                                        @if($errors->first())
-                                        <div class="alert alert-danger">
-                                            @foreach($errors->all() as $error)
-                                                <div>{{ $error }}</div>
-                                            @endforeach
-                                        </div>
-                                        @endif
                                             <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                                                 {{ csrf_field() }}
                                                 <div class="row">

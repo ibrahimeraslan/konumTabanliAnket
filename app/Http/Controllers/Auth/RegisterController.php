@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/kullanici/panel';
 
     /**
      * Create a new controller instance.
@@ -73,7 +73,8 @@ class RegisterController extends Controller
             'dogum_tarihi' => $data['dogum_tarihi'],
             'meslek_id' => $data['meslek'],
             'tip' => 0,
-            'durum' => 1,
+            'durum' => 0,
+            'api_token' => str_random(64),
         ]);
     }
     public function yeniUye(){

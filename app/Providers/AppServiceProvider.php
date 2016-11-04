@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\page\SistemSayfa;
+use App\page\Sss;
+use App\SistemAyar;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('*', function($view)
+        {
+            $view->with('ayarlar', SistemAyar::all()->first());
+            $view->with('sayfalar', SistemSayfa::all());
+        });
     }
 
     /**
