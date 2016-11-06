@@ -39,7 +39,7 @@ class UserController extends Controller
         return Response::json( [
             'trpoll' => [
                 'case' => 1,
-                'message' => User::where('api_token',Input::get('token'))->first(),
+                'message' => User::where('id',Input::get('id'))->first(),
             ]
         ], 200);
     }
