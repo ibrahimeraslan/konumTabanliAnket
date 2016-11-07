@@ -3805,7 +3805,7 @@ html.boxed .pricing-table .plan, html.boxed .pricing-table h3 {
 
 .featured-boxes-flat .featured-box .box-content {
 	background: #FFF;
-	margin-top: 65px;
+	margin-top: 40px;
 }
 
 .featured-boxes-flat .featured-box .icon-featured {
@@ -3981,8 +3981,8 @@ html.boxed .pricing-table .plan, html.boxed .pricing-table h3 {
 
 /* Featured Boxes */
 .featured-boxes .featured-box {
-	margin-bottom: 30px;
-	margin-top: 45px;
+	//margin-bottom: 30px;
+	//margin-top: 45px;
 }
 
 /* Effects */

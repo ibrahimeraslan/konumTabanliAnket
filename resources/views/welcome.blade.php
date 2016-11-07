@@ -197,4 +197,15 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12 center">
+                <h2 class="mt-xl mb-none"><strong>Trpoll</strong> Mobil Uygulaması Artık Kullanılabilir</h2>
+                <p class="lead mb-xl">
+                    Sizde mobil uygulamamızı cihazınıza kurarak, Trpoll hesabınızı heryerden takip edebilirsiniz. Üstelik sitemiz üzerinden yapabileceğiniz işlemlerin neredeyse hepsini uygulamamız üzerinden yapabilirsiniz.
+                    <hr/>
+                    <img src="{{ asset('template/img/left/button-google-play.png') }}" style="max-width:200px;">
+                </p>
+                <hr class="invisible">
+            </div>
+        </div>
 @endsection
