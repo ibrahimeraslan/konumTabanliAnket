@@ -101,7 +101,7 @@ class UserController extends Controller
     }
     public function forgetPassword(Request $request){
         $validator = Validator::make($request->all(), [
-            'mail' => 'required|email|max:255',
+            'mail' => 'required|email|max:255|exists:users,email',
         ]);
         if ($validator->fails()) {
             return Response::json( [
@@ -113,18 +113,7 @@ class UserController extends Controller
         }
         else{
             $user = User::where('email',Input::get('mail'))->first();
-            if(count($user)<1){
-                return Response::json( [
-                    'trpoll' => [
-                        'case' => 0,
-                        'message' => "Bu mail adresi kullanılmamaktadır.",
-                    ]
-                ], 400);
-            }else{
-
-                app('auth.password.broker')->createToken($user);
-            }
-
+            app('auth.password.broker')->createToken($user);
            Mail::to($user->email)->send(new apiPasswordReset(DB::table('password_resets')->where('email',Input::get('mail'))->first()->token));
            if(count(Mail::failures()) < 1){
                return Response::json( [
@@ -145,5 +134,38 @@ class UserController extends Controller
 
         }
     }
-
+    protected function sifreDegistir(Request $request){
+        $validator = Validator::make($request->all(), [
+            'e_sifre' => 'required|min:6',
+            'sifre' => 'required|min:6|confirmed',
+        ]);
+        if ($validator->fails()) {
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 0,
+                    'message' => $validator,
+                ]
+            ], 400);
+        } else{
+            if(!Hash::check(Input::get('e_sifre'), User::where('id',Input::get('id'))->first()->password)){
+                return Response::json( [
+                    'trpoll' => [
+                        'case' => 0,
+                        'message' => $validator,
+                    ]
+                ], 400);
+            }
+            else{
+                $user = User::where('id',Input::get('id'))->first();
+                $user->password=bcrypt(Input::get('sifre'));
+                $user->update();
+                return Response::json( [
+                    'trpoll' => [
+                        'case' => 1,
+                        'message' => "Şifreniz başarıyla değiştirildi.",
+                    ]
+                ], 200);
+            }
+        }
+    }
 }
