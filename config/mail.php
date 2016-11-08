@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => 'hello@example.com',
-        'name' => 'Example',
+        'address' => 'info@trpoll.com',
+        'name' => 'Trpoll - Online Anket Platformu',
     ],
 
     /*

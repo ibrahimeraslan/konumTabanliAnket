@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 use Input;
 use Hash;
 use Auth;
@@ -11,9 +13,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\apiPasswordReset;
+use Illuminate\Support\Str;
+use DB;
+use App\PasswordReset;
 
 class UserController extends Controller
 {
+    use Notifiable;
 
     protected function login(){
         if (Auth::attempt(array('email' => Input::get('mail'), 'password' => Input::get('sifre')))){
@@ -88,6 +96,52 @@ class UserController extends Controller
                     ]
                 ], 400);
             }
+
+        }
+    }
+    public function forgetPassword(Request $request){
+        $validator = Validator::make($request->all(), [
+            'mail' => 'required|email|max:255',
+        ]);
+        if ($validator->fails()) {
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 0,
+                    'message' => $validator,
+                ]
+            ], 400);
+        }
+        else{
+            $user = User::where('email',Input::get('mail'))->first();
+            if(count($user)<1){
+                return Response::json( [
+                    'trpoll' => [
+                        'case' => 0,
+                        'message' => "Bu mail adresi kullanılmamaktadır.",
+                    ]
+                ], 400);
+            }else{
+
+                app('auth.password.broker')->createToken($user);
+            }
+
+           Mail::to($user->email)->send(new apiPasswordReset(DB::table('password_resets')->where('email',Input::get('mail'))->first()->token));
+           if(count(Mail::failures()) < 1){
+               return Response::json( [
+                   'trpoll' => [
+                       'case' => 1,
+                       'message' => "Şifre sıfırlama maili başarıyla gönderildi.",
+                   ]
+               ], 200);
+           }else{
+               return Response::json( [
+                   'trpoll' => [
+                       'case' => 0,
+                       'message' => "Mail gönderim sırasında hata oluştu.",
+                   ]
+               ], 400);
+           }
+
 
         }
     }

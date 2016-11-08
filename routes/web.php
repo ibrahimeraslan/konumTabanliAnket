@@ -38,7 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['prefix' => 'api'], function()
 {
     Route::get('/login', 'api\UserController@login');
-    Route::get('/register', 'api\UserController@Register');
+    Route::get('/register', 'api\UserController@register');
+    Route::get('/forgetpassword', 'api\UserController@forgetPassword');
 
     Route::group(['middleware' => 'apiToken'], function () {
         Route::get('/bilgiCek', 'api\UserController@bilgiCek');
