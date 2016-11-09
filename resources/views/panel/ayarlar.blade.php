@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="mb-none">Ayarlarım</h2>
-                    <p>Üyeliğinizle ilgili tüm işlemleri bu sayfadan yapabilir ve üyeliğinizi tamamen silebilirsiniz.</p>
+                    <p>Üyeliğinizle ilgili tüm işlemleri bu sayfadan yapabilir ve üyeliğinizi silebilirsiniz.</p>
 
                     <hr class="tall">
                 </div>

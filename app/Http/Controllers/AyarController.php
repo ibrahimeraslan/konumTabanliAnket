@@ -76,7 +76,7 @@ class AyarController extends Controller
         $user = User::where('id',Auth::user()->id)->where('email',$mail)->first();
         if($user){
             Auth::user()->delete();
-            return Redirect::to('/')->with('status','Hesabınız başarıyla silindi.Bizi tercih ettiğiniz için teşekkür ederiz.');
+            return Redirect::to('/')->with('status','Hesabınız başarıyla silindi. Bizi tercih ettiğiniz için teşekkür ederiz.');
         }
         else  return Redirect::to('kullanici/ayarlar')->withErrors('Yetkisiz işlem yapmaya çalıştınız.');
     }
