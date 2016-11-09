@@ -168,4 +168,32 @@ class UserController extends Controller
             }
         }
     }
+    protected function bilgiDegistir(){
+        $rules = array(
+            'isim'  => 'required|max:100|min:3',
+            'dtarihi' => 'required|date',
+            'meslek'  => 'required|min:1',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 0,
+                    'message' => $validator,
+                ]
+            ], 400);
+
+        } else {
+            $user = User::where('id',Input::get('id'))->first();
+            $user->name =  Input::get('isim');
+            $user->dogum_tarihi =  Input::get('dtarihi');
+            $user->meslek_id =  Input::get('meslek');
+            $user->update();
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 1,
+                    'message' => "Bilgileriniz başarıyla değiştirildi.",
+                ]
+            ], 200);        }
+    }
 }

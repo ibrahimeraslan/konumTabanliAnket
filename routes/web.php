@@ -44,6 +44,7 @@ Route::group(['prefix' => 'api'], function()
     Route::group(['middleware' => 'apiToken'], function () {
         Route::get('/bilgiCek', 'api\UserController@bilgiCek');
         Route::get('/sifreDegistir', 'api\UserController@sifreDegistir');
+        Route::get('/bilgiDegistir', 'api\UserController@bilgiDegistir');
     });
 
 });
