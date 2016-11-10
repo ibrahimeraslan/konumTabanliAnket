@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\SistemAyar;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
@@ -195,5 +196,14 @@ class UserController extends Controller
                     'message' => "Bilgileriniz başarıyla değiştirildi.",
                 ]
             ], 200);        }
+    }
+    protected function sistemAyarCek(){
+        $setting = SistemAyar::all()->first();
+        return Response::json( [
+            'trpoll' => [
+                'case' => 1,
+                'message' => $setting,
+            ]
+        ], 200);
     }
 }
