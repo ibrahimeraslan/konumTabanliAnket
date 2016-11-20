@@ -1,7 +1,5 @@
 <?php
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@anaSayfa');
 
 Auth::routes();
 
@@ -22,8 +20,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'kullanici'], function()
     {
         Route::get('/panel', 'PanelController@durumKontrol');
+        Route::post('/panel', 'PanelController@uyelikCevaplariIsle');
+        Route::post('/anketGetir', 'PanelController@anketGetir');
         Route::post('/tipDegistir', 'PanelController@tipDegistir');
         Route::get('/ayarlar', 'AyarController@index');
+
 
         Route::group(['prefix' => 'ayarlar'], function()
         {
@@ -46,6 +47,7 @@ Route::group(['prefix' => 'api'], function()
         Route::get('/sifreDegistir', 'api\UserController@sifreDegistir');
         Route::get('/bilgiDegistir', 'api\UserController@bilgiDegistir');
         Route::get('/sistemAyarCek', 'api\UserController@sistemAyarCek');
+        Route::get('/katilinanAnketler', 'api\AnketController@katilinanAnketler');
     });
 
 });
