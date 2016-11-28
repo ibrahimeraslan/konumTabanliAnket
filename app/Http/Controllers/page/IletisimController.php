@@ -35,6 +35,7 @@ class IletisimController extends Controller
             $iletisim->mail =  Input::get('email');
             $iletisim->konu =  Input::get('konu');
             $iletisim->mesaj =  Input::get('mesaj');
+            $iletisim->durum =  0;
             $iletisim->save();
             return Redirect::to('page/iletisim')->with('status','Mesajınız başarıyla gönderildi. En kısa sürede irtibata geçilecektir. Teşekkür ederiz.');
         }
