@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\page\SistemSayfa;
 use App\page\Iletisim;
 use App\SistemAyar;
 use App\User;
@@ -238,6 +239,26 @@ class UserController extends Controller
                     'message' => "Mesajınız başarıyla gönderildi. En kısa sürede irtibata geçilecektir. Teşekkür ederiz.",
                 ]
             ], 200);
+        }
+    }
+    protected function sistemSayfa($id){
+
+        $sonuc = SistemSayfa::where('id',$id)->first();
+        if($sonuc){
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 1,
+                    'message' => $sonuc,
+                ]
+            ], 200);
+        }
+        else{
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 0,
+                    'message' => "Hata Oluştu",
+                ]
+            ], 400);
         }
     }
 }
