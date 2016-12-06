@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\page\Iletisim;
 use App\SistemAyar;
 use App\User;
 use Carbon\Carbon;
@@ -205,5 +206,38 @@ class UserController extends Controller
                 'message' => $setting,
             ]
         ], 200);
+    }
+    protected function iletisim(){
+        $rules = array(
+            'isim'  => 'required|max:100|min:3',
+            'email' => 'required|email',
+            'konu'  => 'required|max:100|min:3',
+            'mesaj' => 'required|max:500|min:3'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 0,
+                    'message' => $validator,
+                ]
+            ], 400);
+
+        } else {
+            $iletisim = new Iletisim();
+            $iletisim->isim =  Input::get('isim');
+            $iletisim->mail =  Input::get('email');
+            $iletisim->konu =  Input::get('konu');
+            $iletisim->mesaj =  Input::get('mesaj');
+            $iletisim->durum =  0;
+            $iletisim->save();
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 1,
+                    'message' => "Mesajınız başarıyla gönderildi. En kısa sürede irtibata geçilecektir. Teşekkür ederiz.",
+                ]
+            ], 200);
+        }
     }
 }
