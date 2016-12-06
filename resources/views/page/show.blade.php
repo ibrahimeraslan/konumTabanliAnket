@@ -1,10 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div role="main" class="main">
-
-
         <div class="container">
-
             <div class="row">
                 <div class="col-md-3">
                     <aside class="sidebar">
@@ -37,12 +34,8 @@
                             </p>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 @endsection

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\page;
-
 use App\page\SistemSayfa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
