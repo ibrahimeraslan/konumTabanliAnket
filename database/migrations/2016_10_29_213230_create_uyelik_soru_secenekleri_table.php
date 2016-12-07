@@ -17,7 +17,6 @@ class CreateUyelikSoruSecenekleriTable extends Migration
             $table->increments('id');
             $table->integer('soru_id');
             $table->string('cevap_metni');
-            $table->tinyInteger('cevap_tipi');
         });
     }
 

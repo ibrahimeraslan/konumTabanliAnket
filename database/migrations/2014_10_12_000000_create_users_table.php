@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('tip');
             $table->tinyInteger('durum');
             $table->string('api_token',65)->unique();
+            $table->boolean('is_admin')->default(0);
         });
     }
 

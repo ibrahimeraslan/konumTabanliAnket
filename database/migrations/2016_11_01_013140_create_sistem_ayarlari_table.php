@@ -17,8 +17,7 @@ class CreateSistemAyarlariTable extends Migration
             $table->increments('id');
             $table->string('site_adi');
             $table->float('ucret_kesintisi');
-            $table->string('admin_kullanici_adi');
-            $table->char('admin_sifre',200);
+            $table->integer('aktarim_siniri')->default(50);
             $table->string('site_mail');
             $table->string('site_tel');
             $table->string('site_adres');

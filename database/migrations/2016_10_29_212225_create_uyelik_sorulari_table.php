@@ -16,6 +16,7 @@ class CreateUyelikSorulariTable extends Migration
         Schema::create('uyelik_sorulari', function (Blueprint $table) {
         $table->increments('id');
         $table->string('soru_metni');
+        $table->boolean('soru_tip');
         $table->tinyInteger('tip');
     });
     }
