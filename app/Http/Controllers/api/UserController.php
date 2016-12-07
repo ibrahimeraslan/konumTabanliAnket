@@ -261,4 +261,24 @@ class UserController extends Controller
             ], 400);
         }
     }
+    protected function kazanc(){
+        $dAnketler = DB::table('doldurulmus_anketler')
+            ->join('anketler', 'anketler.id', '=', 'doldurulmus_anketler.anket_id')
+            ->where('doldurulmus_anketler.uye_id', '=', Input::get('id'))
+            ->get();
+        $toplamPara = DB::select(DB::raw('select sum(miktar) as toplam from para_aktarim_istekleri where user_id='.Input::get('id').' and durum=2'));
+        $pIstekler = DB::table('para_aktarim_istekleri')->where('user_id',Input::get('id'))->get();
+        $toplam = 0;
+        foreach($dAnketler as $anket){
+            if($anket->durum==2) $toplam = $toplam + $anket->anket_ucret;
+        }
+        $toplam = $toplam-($toplam*(SistemAyar::first()->ucret_kesintisi/100));
+        $toplam = $toplam - $toplamPara[0]->toplam;
+        return Response::json( [
+            'trpoll' => [
+                'case' => 1,
+                'message' => $toplam,
+            ]
+        ], 200);
+    }
 }
