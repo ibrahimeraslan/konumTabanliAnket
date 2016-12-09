@@ -21,4 +21,24 @@ class AnketController extends Controller
             ]
         ], 200);
     }
+    protected function olusturduklarim(){
+        $anketler = DB::table('anketler')->where('uye_id',Input::get('id'))->get();
+        if($anketler){
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 1,
+                    'message' => $anketler,
+                ]
+            ], 200);
+        }
+        else{
+                return Response::json( [
+                    'trpoll' => [
+                        'case' => 0,
+                        'message' => "Hatalı işlem",
+                    ]
+                ], 400);
+        }
+    }
+
 }
