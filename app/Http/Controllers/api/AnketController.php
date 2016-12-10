@@ -40,5 +40,49 @@ class AnketController extends Controller
                 ], 400);
         }
     }
+    protected function katilabileceklerim(){
+        if(!Input::get('konum')){
+            return Response::json( [
+                'trpoll' => [
+                    'case' => 0,
+                    'message' => "Konum Bilgisi Hatası",
+                ]
+            ], 400);
+        }
+        else{
+            $sql="select DISTINCT anketler.id, anket_adi, anket_id, anket_durum, anket_katilim_sayisi,anket_limit,anket_ucret from uyelik_soru_cevaplari, anket_kurallari, anketler
+        where uyelik_soru_cevaplari.uye_id=".Input::get('id')." 
+        and anket_kurallari.soru_id=uyelik_soru_cevaplari.soru_id
+        and anket_kurallari.cevap_id=uyelik_soru_cevaplari.cevap_id
+        and anketler.anket_durum=1
+        and anketler.anket_katilim_sayisi < anketler.anket_limit
+        and
+        (
+            anketler.anket_konum=''
+            or
+            (
+                anketler.anket_konum='" . Input::get('konum') . "'
+            )
+        ) order by anketler.id desc
+        ";
+            $veriler = DB::select(DB::raw($sql));
+            if($veriler){
+                return Response::json( [
+                    'trpoll' => [
+                        'case' => 1,
+                        'message' => $veriler,
+                    ]
+                ], 200);
+            }
+            else{
+                return Response::json( [
+                    'trpoll' => [
+                        'case' => 0,
+                        'message' => "Sonuç Bulunamadı",
+                    ]
+                ], 400);
+            }
+        }
+    }
 
 }
