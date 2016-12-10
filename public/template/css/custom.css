@@ -1,1 +1,78 @@
-/* Add here all your CSS customizations */
+.soruListele {
+    width:100%;
+}
+.soruListele tr td {
+    padding-bottom:20px;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+.soruListele .soruSayi{
+    font-size: 22px;
+    background:cornflowerblue;
+    width:50px;
+    padding:10px;
+    color:#fff;
+    -webkit-border-radius:100%;
+    -moz-border-radius:100%;
+    border-radius:100%;
+    text-align: center;
+    margin-right:15px;
+}
+.anketRadio {
+    display: inline-block;
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #f3ebeb;
+    border-radius: 4px;
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.anketRadio input {
+    margin-right:10px;
+    width: 15px;
+    float:left;
+}
+.anketRadio label {
+    max-width: 90%;
+    font-weight: 400;
+}
+.soruSayisi{
+    margin-bottom:10px;
+
+}
+.soruSayisi span{
+    background:cornflowerblue;
+    padding:5px;
+    border-radius: 100%;
+    font-size:10px;
+    font-weight: bold;
+    color:#fff;
+}
+.zamanIlk{
+    color:#fff;
+    font-weight:800;
+    padding:20px;
+    font-size:22px;
+}
+.zamanIlk #zaman{
+    display: inline-block;
+    color:red;
+    font-size:25px;
+}
+.anketSorulari{
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(0, 0, 0, 0.28);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(0, 0, 0, 0.28);
+    box-shadow:         0px 0px 28px 0px rgba(0, 0, 0, 0.28);
+    padding:10px;
+    border-radius: 5px;
+    margin:10px;
+}
+.secenekSil{
+    margin-bottom:10px;
+}

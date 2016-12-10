@@ -23,7 +23,7 @@
                             {{ csrf_field() }}
                             <input type="hidden" name="tip" value="2">
                         </form>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('panelTip1').submit();" data-hash="" data-hash-offset="70" class="btn btn-primary btn-lg mb-xl"><i class="fa fa-globe"></i><i class="fa fa-money"></i> Anket Doldurarak Para Kazanan</a>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('panelTip1').submit();" data-hash="" data-hash-offset="70" class="btn btn-primary btn-lg mb-xl"><i class="fa fa-money"></i> Anket Doldurarak Para Kazanan</a>
                         <a href="#" onclick="event.preventDefault(); document.getElementById('panelTip2').submit();" data-hash="" data-hash-offset="70" class="btn btn-success btn-lg mb-xl"><i class="fa fa-globe"></i> Anket Yayınlamak İsteyen</a>
                     </div>
                 </div>
@@ -55,23 +55,27 @@
                                     </ul>
                                     <div class="tab-content">
                                         <div id="popular" class="tab-pane active">
-                                            <p>
+                                            <form action="{{ URL::to('kullanici/panel') }}" method="post">
+                                                {{ csrf_field() }}
+                                            <table class="soruListele">
                                                     <?php
-                                                    $onceki = "";
-                                                    foreach ($sorular as $soru){
-                                                        if($onceki != $soru->soru_id){
-                                                           echo "<strong>$soru->soru_metni</strong>";
-                                                        }
-                                                        echo $FunctionController::secenekOlustur($soru->cevap_tipi,$soru->cevap_metni);
-
-                                                    $onceki = $soru->soru_id;
+                                                    $count=1;
+                                                    foreach ($sorular as $index=>$soru){
+                                                        echo "<tr><td valign='center'><div class='soruSayi'>".$count."</div></td>";
+                                                        echo "<td>";
+                                                        echo "<strong>$soru->soru_metni</strong>";
+                                                        echo $FunctionController::secenekOlustur($soru->soru_tip,$soru->id);
+                                                        echo "</td></tr>";
+                                                    $count++;
                                                     }
-
                                                     ?>
-
-                                            </p>
+                                                </table>
+                                            <button type="submit" class="btn btn-success">Bilgilerimi Kaydet</button>
+                                        </form>
                                         </div>
+<style>
 
+</style>
                                     </div>
                                 </div>
                             </div>

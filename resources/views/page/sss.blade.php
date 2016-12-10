@@ -9,11 +9,14 @@
         <hr/>
         <div class="row">
             <div class="col-md-12">
-                <div class="toggle toggle-quaternary" data-plugin-toggle>
+                <div class="toggle toggle-quaternary" data-plugin-toggle data-plugin-options='{ "isAccordion": true }'>
                     @foreach($sorular as $soru)
+
                         <section class="toggle">
-                            <label>{{ $soru->soru_metni }}</label>
-                            <p>{{ $soru->soru_cevabi }}</p>
+                                <label>{{ $soru->soru_metni }}</label>
+                                <div class="toggle-content">
+                                    {!! $soru->soru_cevabi !!}
+                                </div>
                         </section>
                     @endforeach
                 </div>

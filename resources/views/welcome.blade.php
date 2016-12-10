@@ -116,7 +116,7 @@
                         </strong>
                     </h1>
                     <p class="lead">
-                        Trpoll, size uygun anketleri sizin için sunar. Bu anketlere katılarak tamamen doldurmanız gerekmektedir. Gerekli kontrollerden sonra hesabınıza anket ücreti yansıtılmaktadır. Bakiyeniz <b>50TL</b> ulaştıktan sonra paypal hesabınıza ödeme alabilirsiniz.
+                        Trpoll, size uygun anketleri sizin için sunar. Bu anketlere katılarak tamamen doldurmanız gerekmektedir. Gerekli kontrollerden sonra hesabınıza anket ücreti yansıtılmaktadır. Bakiyeniz <b>{{ $ayarlar->aktarim_siniri }}TL</b> ulaştıktan sonra paypal hesabınıza ödeme alabilirsiniz.
                     </p>
                 </div>
             </div>
@@ -130,19 +130,19 @@
                     <div class="counters counters-text-light">
                         <div class="col-md-3 col-sm-6">
                             <div class="counter">
-                                <strong data-to="19000" data-append="+">1200+</strong>
+                                <strong data-to="{{$countNormalUser}}" data-append="+">0+</strong>
                                 <label>Kullanıcı</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="counter">
-                                <strong data-to="150">150</strong>
+                                <strong data-to="{{$countSurveyUser}}" data-append="+">0</strong>
                                 <label>Firma veya Kuruluş</label>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="counter">
-                                <strong data-to="352">352</strong>
+                                <strong data-to="{{ $countSurvey }}">0</strong>
                                 <label>Anket</label>
                             </div>
                         </div>

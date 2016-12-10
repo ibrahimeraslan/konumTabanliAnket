@@ -85,16 +85,13 @@
 
                                         <h4 class="text-uppercase">neden <strong>trpoll</strong>?</h4>
                                         <ul class="list list-icons list-primary list-borders">
-                                            <li><i class="fa fa-check"></i> Fusce sit amet orci quis arcu vestibulum vestibulum.</li>
-                                            <li><i class="fa fa-check"></i> Fusce sit amet orci quis arcu vestibulum vestibulum.</li>
-                                            <li><i class="fa fa-check"></i> Fusce sit amet orci quis arcu vestibulum vestibulum.</li>
-                                            <li><i class="fa fa-check"></i> Fusce sit amet orci quis arcu vestibulum vestibulum.</li>
-                                            <li><i class="fa fa-check"></i> Fusce sit amet orci quis arcu vestibulum vestibulum.</li>
-                                            <li><i class="fa fa-check"></i> Fusce sit amet orci quis arcu vestibulum vestibulum.</li>
-                                            <li><i class="fa fa-check"></i> Fusce sit amet orci quis arcu vestibulum vestibulum.</li>
-                                            <li><i class="fa fa-check"></i> Fusce sit amet orci quis arcu vestibulum vestibulum.</li>
+                                            <li><i class="fa fa-check"></i> Görüşlerinize ve kazancınıza sahip çıkar, her türlü sorununuza çözüm bulmak için uğraşır.</li>
+                                            <li><i class="fa fa-check"></i> Ankete katılan kişilerden doğru sonuçlar almak için uğraşır ve size en iyi bilgiyi sunmaya çalışır.</li>
                                         </ul>
 
+                                        <p><a href="{{ URL::to('register') }}"><img src="{{ asset('template/img/left/anket.png') }}" style="width: 100%;"></a></p>
+                                        <p><a href="{{ URL::to('register') }}"><img src="{{ asset('template/img/left/paypal.png') }}" style="width: 100%;"></a></p>
+                                        <p><a href="{{ URL::to('register') }}"><img src="{{ asset('template/img/left/firma.png') }}" style="width: 100%;"></a></p>
 
 
                                     </div>

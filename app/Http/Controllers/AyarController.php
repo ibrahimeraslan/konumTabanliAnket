@@ -11,11 +11,15 @@ use Input;
 use Redirect;
 use Image;
 use Hash;
+use DB;
 
 class AyarController extends Controller
 {
     protected function index(){
-        return view('panel\ayarlar',['meslekler'=>Meslek::all()]);
+        $sorular = DB::table('uyelik_sorulari')
+            ->where('tip',Auth::user()->tip)
+            ->get();
+        return view('panel\ayarlar',['meslekler'=>Meslek::all(),'FunctionController' => new FunctionController ,'sorular'=> $sorular]);
     }
     protected function anaBilgiler(){
 

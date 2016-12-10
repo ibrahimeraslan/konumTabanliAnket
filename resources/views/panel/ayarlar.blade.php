@@ -72,7 +72,27 @@
                                 </p>
                             </div>
                             <div id="ayrintiliBilgiler" class="tab-pane">
-                                <p>ayrintiliBilgiler</p>
+                                <p>
+
+                                <form action="{{ URL::to('kullanici/panel/bilgiGuncelle') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <table class="soruListele">
+                                        <?php
+                                        $count=1;
+                                        foreach ($sorular as $soru){
+                                            echo "<tr><td valign='center'><div class='soruSayi'>".$count."</div></td>";
+                                            echo "<td>";
+                                            echo "<strong>$soru->soru_metni</strong>";
+                                            echo $FunctionController::secenekOlustur($soru->soru_tip,$soru->id,'1');
+                                            echo "</td></tr>";
+                                            $count++;
+                                        }
+                                        ?>
+                                    </table>
+                                    <button type="submit" class="btn btn-success">Bilgileri Güncelle</button>
+                                </form>
+
+                                </p>
                             </div>
                             <div id="sifreIslemleri" class="tab-pane">
                                 <p>

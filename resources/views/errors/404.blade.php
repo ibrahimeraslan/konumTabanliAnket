@@ -12,13 +12,10 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <h4 class="heading-primary">Here are some useful links</h4>
+                        <h4 class="heading-primary">Bu sorunu her zaman yaşadığınızı düşünüyorsanız veya bu hatanın olmaması gerektiğine inanıyorsanız lütfen iletişim bölümünden bizimle irtibata geçiniz.<br>Anlayışınız ve değerli görüşleriniz için teşekkür ederiz.</h4>
                         <ul class="nav nav-list">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">FAQ's</a></li>
-                            <li><a href="#">Sitemap</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="{{ URL::to('/') }}">Anasayfa</a></li>
+                            <li><a href="{{ URL::to('/iletisim') }}">İletişim</a></li>
                         </ul>
                     </div>
                 </div>

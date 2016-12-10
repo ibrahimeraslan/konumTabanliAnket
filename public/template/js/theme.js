@@ -381,7 +381,7 @@ window.theme = {};
 		accY: 0,
 		speed: 3000,
 		refreshInterval: 100,
-		decimals: 0,
+		decimals: 1,
 		onUpdate: null,
 		onComplete: null
 	};
