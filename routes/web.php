@@ -74,6 +74,8 @@ Route::group(['prefix' => 'api'], function()
         Route::get('/iletisim', 'api\UserController@iletisim');
         Route::get('/sistemSayfa/{id}', 'api\UserController@sistemSayfa');
         Route::get('/kazanc', 'api\UserController@kazanc');
+        Route::get('/olusturduklarim', 'api\AnketController@olusturduklarim');
+        Route::get('/katilabileceklerim', 'api\AnketController@katilabileceklerim');
     });
 
 });
@@ -82,6 +84,17 @@ Route::group(['prefix' => 'api'], function()
 Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/', 'admin\AdminController@index');
+        Route::get('/sistemAyar', 'admin\AdminController@sistemAyar');
+        Route::post('/sistemAyar', 'admin\AdminController@sistemAyarGuncelle');
+        Route::resource('/iletisim', 'admin\iletisimController');
+        Route::resource('/sss', 'admin\sssController');
+        Route::get('/butce', 'admin\adminController@butce');
+        Route::resource('/uye', 'admin\uyeController');
+        Route::resource('/meslek', 'admin\meslekController');
+        Route::resource('/anket', 'admin\anketController');
+        Route::resource('/soru', 'admin\soruController');
+        Route::resource('/ssayfa', 'admin\ssayfaController');
+        Route::resource('/odeme', 'admin\odemeController');
     });
 });
 
