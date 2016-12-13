@@ -81,15 +81,15 @@
 
       <ul class="sidebar-menu">
         <li class="header">Menüler</li>
-        <li class="active"><a href="{{ URL::to('/admin/sistemAyar') }}"><i class="fa fa-gear"></i> <span>Sistem Ayarları</span></a></li>
-        <li><a href="#"><i class="fa fa-money"></i> <span>Bütçe Yönetimi</span></a></li>
-        <li><a href="#"><i class="fa fa-user"></i> <span>Üye Yönetimi</span></a></li>
-        <li><a href="#"><i class="fa fa-pie-chart"></i> <span>Anket Yönetimi</span></a></li>
-        <li><a href="#"><i class="fa fa-question-circle"></i> <span>Soru Yönetimi</span></a></li>
-        <li><a href="#"><i class="fa fa-file"></i> <span>Sistem Sayfaları Yönetimi</span></a></li>
+        <li><a href="{{ URL::to('/admin/sistemAyar') }}"><i class="fa fa-gear"></i> <span>Sistem Ayarları</span></a></li>
+        <li><a href="{{ URL::to('/admin/butce') }}"><i class="fa fa-money"></i> <span>Bütçe Yönetimi</span></a></li>
+        <li><a href="{{ URL::to('/admin/uye') }}"><i class="fa fa-user"></i> <span>Üye Yönetimi</span></a></li>
+        <li><a href="{{ URL::to('/admin/anket') }}"><i class="fa fa-pie-chart"></i> <span>Anket Yönetimi</span></a></li>
+        <li><a href="{{ URL::to('/admin/soru') }}"><i class="fa fa-question-circle"></i> <span>Soru Yönetimi</span></a></li>
+        <li><a href="{{ URL::to('/admin/ssayfa') }}"><i class="fa fa-file"></i> <span>Sistem Sayfaları Yönetimi</span></a></li>
         <li><a href="{{ URL::to('/admin/sss') }}"><i class="fa fa-info-circle"></i> <span>SSS Yönetimi</span></a></li>
-        <li><a href="#"><i class="fa fa-users"></i> <span>Meslek Yönetimi</span></a></li>
-        <li><a href="#"><i class="fa fa-credit-card"></i> <span>Ödeme İstekleri Yönetimi</span></a></li>
+        <li><a href="{{ URL::to('/admin/meslek') }}"><i class="fa fa-users"></i> <span>Meslek Yönetimi</span></a></li>
+        <li><a href="{{ URL::to('/admin/odeme') }}"><i class="fa fa-credit-card"></i> <span>Ödeme İstekleri Yönetimi</span></a></li>
         <li><a href="{{ URL::to('/admin/iletisim') }}"><i class="fa fa-globe"></i> <span>İletişim Mesajları Yönetimi</span></a></li>
       </ul>
     </section>
