@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Anket;
 use App\page\Iletisim;
 use App\SistemAyar;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Redirect;
 use Input;
+use DB;
 
 class AdminController extends Controller
 {
     protected function index(){
-        return view('admin.index');
+        $anketVeren = User::where('tip',2)->count();
+        $anketDolduran = User::where('tip',1)->count();
+        $admin = User::where('is_admin',1)->count();
+        $sonAnketler = Anket::join('users', 'users.id', '=', 'anketler.uye_id')
+            ->orderBy('anketler.id','desc')->limit(10)
+
+            ->get();
+        return view('admin.index',['anketVeren'=>$anketVeren, 'anketDolduran'=>$anketDolduran, 'admin'=>$admin, 'sonAnketler'=>$sonAnketler]);
     }
     protected function sistemAyar(){
         return view('admin.sistemAyar');
@@ -48,7 +58,14 @@ class AdminController extends Controller
         }
     }
     protected function butce(){
-        return view('admin.butce');
+        $odeme = DB::table('para_aktarim_istekleri')->where('durum',2)->count();
+        $anketSayisi = Anket::all()->count();
+        $odemeToplam = DB::table('para_aktarim_istekleri')
+            ->select(DB::raw('sum(miktar) as toplam'))
+            ->where('durum', '=', 2)
+            ->get();
+        $odemeler = DB::table('para_aktarim_istekleri')->get();
+        return view('admin.butce',['odeme'=>$odeme,'odemeToplam'=>json_decode(json_encode($odemeToplam,true)),'anketSayisi'=>$anketSayisi,'FunctionController'=>new FunctionController(),'odemeler'=>$odemeler]);
     }
 
 }
