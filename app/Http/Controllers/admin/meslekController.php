@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Meslek;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Validator;
+use Input;
+use Redirect;
 
 class meslekController extends Controller
 {
@@ -14,7 +18,7 @@ class meslekController extends Controller
      */
     public function index()
     {
-        return view('admin.meslek');
+        return view('admin.meslek',['meslekler'=>Meslek::all()]);
     }
 
     /**
@@ -24,7 +28,20 @@ class meslekController extends Controller
      */
     public function create()
     {
-        //
+        $rules = array(
+            'meslek_metni'  => 'required|min:3',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            return Redirect::back()
+                ->withErrors($validator);
+        } else {
+            Meslek::create([
+                'meslek_adi'=>Input::get('meslek_metni')
+            ]);
+            return Redirect::back()->with('status','İşleminiz Başarıyla Gerçekleştirilmiştir.');
+        }
     }
 
     /**
@@ -46,7 +63,7 @@ class meslekController extends Controller
      */
     public function show($id)
     {
-        //
+        return Meslek::where('id',$id)->first();
     }
 
     /**
@@ -69,7 +86,10 @@ class meslekController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Meslek::where('id',$id)->update([
+            'meslek_adi'=>Input::get('meslek_metni')
+        ]);
+        return Redirect::back()->with('status','İşleminiz Başarıyla Gerçekleştirilmiştir.');
     }
 
     /**
@@ -80,6 +100,7 @@ class meslekController extends Controller
      */
     public function destroy($id)
     {
-        //
+       Meslek::where('id',$id)->delete();
+        return Redirect::back()->with('status','İşleminiz Başarıyla Gerçekleştirilmiştir.');
     }
 }

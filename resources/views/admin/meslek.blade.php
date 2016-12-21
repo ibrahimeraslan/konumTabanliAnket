@@ -25,20 +25,20 @@
                                 <h4 class="modal-title" id="myModalLabel">Yeni Meslek Ekle</h4>
                             </div>
                             <div class="modal-body">
-                                <form role="form" action="{{ URL::to('admin/sss/create') }}" method="post" name="sssEkle">
+                                <form role="form" action="{{ URL::to('admin/meslek/create') }}" method="post" name="meslekEkle">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="GET">
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label>Mesleği Yazınız</label>
-                                            <input name="soru_metni" type="text" class="form-control">
+                                            <input name="meslek_metni" type="text" class="form-control">
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
-                                <button type="button" class="btn btn-primary" onclick="sssEkle.submit()">Ekle</button>
+                                <button type="button" class="btn btn-primary" onclick="meslekEkle.submit()">Ekle</button>
                             </div>
                         </div>
                     </div>
@@ -50,14 +50,20 @@
                         <th>Meslek</th>
                         <th style="width: 40px">İşlemler</th>
                     </tr>
+                    @foreach($meslekler as $meslek)
+                        <form name="sil{{ $meslek->id }}" method="post" action="{{ URL::to('admin/meslek/'.$meslek->id) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            {{ csrf_field() }}
+                        </form>
                         <tr>
-                            <td>1</td>
-                            <td>FullStack Developer</td>
+                            <td>{{ $meslek->id }}</td>
+                            <td>{{ $meslek->meslek_adi }}</td>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#soruDuzenle" onclick="guncelle()" class="btn btn-flat btn-xs btn-success"><i class="fa fa-edit"></i></a>
-                                <a href="#" onclick="sil.submit()" class="btn btn-flat btn-xs btn-danger"><i class="fa fa-remove"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#meslekDuzenle" onclick="guncelle({{ $meslek->id }})" class="btn btn-flat btn-xs btn-success"><i class="fa fa-edit"></i></a>
+                                <a href="#" onclick="sil{{ $meslek->id }}.submit()" class="btn btn-flat btn-xs btn-danger"><i class="fa fa-remove"></i></a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody></table>
             </div>
         </div>
@@ -67,29 +73,29 @@
 
     </section>
 
-    <div class="modal fade" id="soruDuzenle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="meslekDuzenle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Yeni Meslek Ekle</h4>
+                    <h4 class="modal-title" id="myModalLabel">Meslek Düzenle</h4>
                 </div>
                 <div class="modal-body">
                     <div id="soruLoading"></div>
-                    <form id="sssDuzenle" role="form" action="{{ URL::to('admin/sss') }}" method="post" name="sssDuzenle">
+                    <form id="meslekDuzenleForm" role="form" action="{{ URL::to('admin/meslek') }}" method="post" name="meslekDuzenle">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
                         <div class="box-body">
                             <div class="form-group">
                                 <label>Mesleği Yazınız</label>
-                                <input id="soruDuzenMetin" name="soruDuzenMetin" type="text" class="form-control">
+                                <input id="meslek_metni" name="meslek_metni" type="text" class="form-control">
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
-                    <button type="button" class="btn btn-primary" onclick="sssDuzenle.submit()">Güncelle</button>
+                    <button type="button" class="btn btn-primary" onclick="meslekDuzenle.submit()">Güncelle</button>
                 </div>
             </div>
         </div>
@@ -97,24 +103,19 @@
 <script>
     function guncelle(id){
         $('#soruLoading').show();
-        $('#sssDuzenle').hide();
+        $('#meslekDuzenleForm').hide();
         $('#soruLoading').html('<center><img src="/template/img/progress-circle-master.svg"></center>');
         $.ajax({
             type:'POST',
             data:"_method=GET&id="+id,
-            url:'{{ URL::to('admin/sss/') }}/'+id,
+            url:'{{ URL::to('admin/meslek/') }}/'+id,
             success:function(gelen){
-               $('#soruDuzenMetin').val(gelen.soru_metni);
-                CKEDITOR.instances.soruDuzenCevap.setData( gelen.soru_cevabi );
+               $('#meslek_metni').val(gelen.meslek_adi);
                 $('#soruLoading').hide();
-                $('#sssDuzenle').show();
-                $('#sssDuzenle').attr('action','{{ URL::to('admin/sss') }}/'+id);
+                $('#meslekDuzenleForm').show();
+                $('#meslekDuzenleForm').attr('action','{{ URL::to('admin/meslek') }}/'+id);
             }
         });
     }
-    </script>
-    <script>
-        CKEDITOR.replace( 'soru_cevabi' );
-        CKEDITOR.replace( 'soruDuzenCevap' );
     </script>
 @endsection
