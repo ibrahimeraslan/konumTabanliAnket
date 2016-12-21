@@ -4,6 +4,9 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DB;
+use Illuminate\Support\Facades\Redirect;
+use Input;
 
 class odemeController extends Controller
 {
@@ -14,7 +17,10 @@ class odemeController extends Controller
      */
     public function index()
     {
-        return view('admin.odeme');
+        $istekler = DB::table('para_aktarim_istekleri')->join('users','users.id','=','para_aktarim_istekleri.user_id')
+            ->select('para_aktarim_istekleri.*','users.name as name')
+            ->paginate(15);
+        return view('admin.odeme',['istekler'=>$istekler]);
     }
 
     /**
@@ -69,7 +75,22 @@ class odemeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if(!Input::get('durum')){
+            return Redirect::back()->withErrors("Hatalı işlem yapıldı");
+        }elseif(Input::get('durum')==1){
+            DB::table('para_aktarim_istekleri')->where('id',$id)->update([
+                'durum'=>1,
+                'mesaj'=>Input::get('mesaj')
+            ]);
+            return Redirect::back()->with('status','İşleminiz başarıyla gerçekleştirildi.');
+        }elseif(Input::get('durum')==2){
+            DB::table('para_aktarim_istekleri')->where('id',$id)->update([
+                'durum'=>2
+            ]);
+            return Redirect::back()->with('status','İşleminiz başarıyla gerçekleştirildi.');
+        }else{
+            return Redirect::back()->withErrors("Hatalı işlem yapıldı");
+        }
     }
 
     /**
