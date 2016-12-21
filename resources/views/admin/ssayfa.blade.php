@@ -25,24 +25,24 @@
                                 <h4 class="modal-title" id="myModalLabel">Yeni Sayfa Ekle</h4>
                             </div>
                             <div class="modal-body">
-                                <form role="form" action="{{ URL::to('admin/sss/create') }}" method="post" name="sssEkle">
+                                <form role="form" action="{{ URL::to('admin/ssayfa/create') }}" method="post" name="ssayfaEkle">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="GET">
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label>Sayfa Adını Yazınız</label>
-                                            <input name="soru_metni" type="text" class="form-control">
+                                            <input name="ssayfa_adi" type="text" class="form-control">
                                         </div>
                                         <div class="form-group">
                                             <label>Sayfa Metnini Yazınız</label>
-                                            <input name="soru_metni" type="text" class="form-control">
+                                            <textarea name="ssayfa_metni" class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
-                                <button type="button" class="btn btn-primary" onclick="sssEkle.submit()">Ekle</button>
+                                <button type="button" class="btn btn-primary" onclick="ssayfaEkle.submit()">Ekle</button>
                             </div>
                         </div>
                     </div>
@@ -52,18 +52,24 @@
                     <tbody><tr>
                         <th style="width: 10px">#</th>
                         <th>Sayfa Adı</th>
-                        <th>Sayfa Metni</th>
+                        <th>Sayfa Metni(Önizleme)</th>
                         <th>İşlemler</th>
                     </tr>
+                    @foreach($sayfalar as $i=>$sayfa)
                         <tr>
-                            <td>1</td>
-                            <td>Deneme Sayfası</td>
-                            <td>Deneme Metni</td>
+                            <td>{{ $i+1 }}</td>
+                            <td>{{ $sayfa->sayfa_adi }}</td>
+                            <td>{{ substr(strip_tags($sayfa->sayfa_metni),0,150) }}</td>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#soruDuzenle" onclick="guncelle()" class="btn btn-flat btn-xs btn-success"><i class="fa fa-edit"></i></a>
-                                <a href="#" onclick="sil.submit()" class="btn btn-flat btn-xs btn-danger"><i class="fa fa-remove"></i></a>
+                                <form name="sil{{ $sayfa->id }}" method="post" action="{{ URL::to('admin/ssayfa/'.$sayfa->id) }}">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    {{ csrf_field() }}
+                                </form>
+                                <a href="#" data-toggle="modal" data-target="#divssayfaDuzenle" onclick="guncelle({{ $sayfa->id }})" class="btn btn-flat btn-xs btn-success"><i class="fa fa-edit"></i></a>
+                                <a href="#" onclick="sil{{ $sayfa->id }}.submit()" class="btn btn-flat btn-xs btn-danger"><i class="fa fa-remove"></i></a>
                             </td>
                         </tr>
+                    @endforeach
                     </tbody></table>
             </div>
         </div>
@@ -73,7 +79,7 @@
 
     </section>
 
-    <div class="modal fade" id="soruDuzenle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="divssayfaDuzenle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -81,46 +87,53 @@
                     <h4 class="modal-title" id="myModalLabel">Sayfa Düzenle</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="soruLoading"></div>
-                    <form id="sssDuzenle" role="form" action="{{ URL::to('admin/sss') }}" method="post" name="sssDuzenle">
+                    <div id="ssayfaLoading"></div>
+                    <form id="ssayfaDuzenle" role="form" action="{{ URL::to('admin/sss') }}" method="post" name="ssayfaDuzenle">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
                         <div class="box-body">
                             <div class="form-group">
-                                <label>Mesleği Yazınız</label>
-                                <input id="soruDuzenMetin" name="soruDuzenMetin" type="text" class="form-control">
+                                <label>Sayfa Adını Yazınız</label>
+                                <input id="ssayfaadiDuzenle" name="ssayfaadiDuzenle" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Sayfa Metnini Yazınız</label>
+                                <textarea name="ssayfametniDuzenle" id="ssayfametniDuzenle" class="form-control"></textarea>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
-                    <button type="button" class="btn btn-primary" onclick="sssDuzenle.submit()">Güncelle</button>
+                    <button type="button" class="btn btn-primary" onclick="ssayfaDuzenle.submit()">Güncelle</button>
                 </div>
             </div>
         </div>
     </div>
 <script>
     function guncelle(id){
-        $('#soruLoading').show();
-        $('#sssDuzenle').hide();
-        $('#soruLoading').html('<center><img src="/template/img/progress-circle-master.svg"></center>');
+        $('#ssayfaLoading').show();
+        $('#ssayfaDuzenle').hide();
+        $('#ssayfaLoading').html('<center><img src="/template/img/progress-circle-master.svg"></center>');
         $.ajax({
             type:'POST',
             data:"_method=GET&id="+id,
-            url:'{{ URL::to('admin/sss/') }}/'+id,
+            url:'{{ URL::to('admin/ssayfa/') }}/'+id,
             success:function(gelen){
-               $('#soruDuzenMetin').val(gelen.soru_metni);
-                CKEDITOR.instances.soruDuzenCevap.setData( gelen.soru_cevabi );
-                $('#soruLoading').hide();
-                $('#sssDuzenle').show();
-                $('#sssDuzenle').attr('action','{{ URL::to('admin/sss') }}/'+id);
+               $('#ssayfaadiDuzenle').val(gelen.sayfa_adi);
+               $('#ssayfametniDuzenle').val(gelen.sayfa_metni);
+                if(CKEDITOR.instances.ssayfametniDuzenle){
+                    CKEDITOR.instances.ssayfametniDuzenle.destroy(true);
+                }
+                CKEDITOR.replace( 'ssayfametniDuzenle' );
+                $('#ssayfaLoading').hide();
+                $('#ssayfaDuzenle').show();
+                $('#ssayfaDuzenle').attr('action','{{ URL::to('admin/ssayfa') }}/'+id);
             }
         });
     }
     </script>
     <script>
-        CKEDITOR.replace( 'soru_cevabi' );
-        CKEDITOR.replace( 'soruDuzenCevap' );
+        CKEDITOR.replace( 'ssayfa_metni' );
     </script>
 @endsection
