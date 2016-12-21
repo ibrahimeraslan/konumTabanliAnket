@@ -23,21 +23,43 @@
                         <th>Durumu</th>
                         <th>İşlemler</th>
                     </tr>
+                    @foreach($anketler as $i=>$anket)
                         <tr>
-                            <td>1</td>
-                            <td>Deneme Anketi</td>
-                            <td>İbrahim Eraslan</td>
-                            <td>12.12.2016 23.53</td>
+                            <td>{{ $i+1 }}</td>
+                            <td>{{ $anket->anket_adi }}</td>
+                            <td>{{ $anket->name }}</td>
+                            <td>{{ $anket->created_at }}</td>
                             <td>
+                                @if($anket->anket_durum == 0)
                                 <span class="badge bg-red">Pasif</span>
+                                @else
                                 <span class="badge bg-green">Aktif</span>
+                                @endif
                             </td>
+                            <form name="sil{{ $anket->id }}" method="post" action="{{ URL::to('admin/anket/'.$anket->id) }}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                {{ csrf_field() }}
+                            </form>
+                            <form name="onayla{{ $anket->id }}" method="post" action="{{ URL::to('admin/anket/'.$anket->id) }}">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="durum" value="2">
+                                {{ csrf_field() }}
+                            </form>
+                            <form name="reddet{{ $anket->id }}" method="post" action="{{ URL::to('admin/anket/'.$anket->id) }}">
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="hidden" name="durum" value="1">
+                                {{ csrf_field() }}
+                            </form>
                             <td>
-                                <a href="#" class="btn btn-flat btn-xs btn-danger" title="Pasif et"><i class="fa fa-ban"></i></a>
-                                <a href="#" class="btn btn-flat btn-xs btn-success" title="Aktif et"><i class="fa fa-ban"></i></a>
-                                <a href="#" class="btn btn-flat btn-xs btn-danger" title="Anketi Sil"><i class="fa fa-remove"></i></a>
+                                @if($anket->anket_durum == 1)
+                                <a href="#" onclick="reddet{{ $anket->id }}.submit()" class="btn btn-flat btn-xs btn-danger" title="Pasif et"><i class="fa fa-ban"></i></a>
+                                @else
+                                <a href="#" onclick="onayla{{ $anket->id }}.submit()" class="btn btn-flat btn-xs btn-success" title="Aktif et"><i class="fa fa-ban"></i></a>
+                                @endif
+                                <a href="#" onclick="sil{{ $anket->id }}.submit()" class="btn btn-flat btn-xs btn-danger" title="Anketi Sil"><i class="fa fa-remove"></i></a>
                             </td>
                         </tr>
+                    @endforeach
                     </tbody></table>
             </div>
         </div>
