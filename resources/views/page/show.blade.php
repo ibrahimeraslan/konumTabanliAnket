@@ -30,7 +30,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <p>
-                                {{ $sayfaBilgileri->sayfa_metni }}
+                                {!! $sayfaBilgileri->sayfa_metni !!}
                             </p>
                         </div>
                     </div>

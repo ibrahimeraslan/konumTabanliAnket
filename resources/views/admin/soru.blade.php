@@ -25,7 +25,7 @@
                                 <h4 class="modal-title" id="myModalLabel">Yeni Soru Ekle</h4>
                             </div>
                             <div class="modal-body">
-                                <form role="form" action="{{ URL::to('admin/sss/create') }}" method="post" name="sssEkle">
+                                <form role="form" action="{{ URL::to('admin/soru/create') }}" method="post" name="soruEkle" onsubmit="return false;">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="GET">
                                     <div class="box-body">
@@ -35,23 +35,31 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Soru Tipini Seçiniz</label>
-                                            <select name="soru_metni" type="text" class="form-control">
+                                            <select name="soru_tipi" type="text" class="form-control">
                                                 <option value="">Seçiniz</option>
-                                                <option value="">Anket Veren</option>
-                                                <option value="">Anket Dolduran</option>
+                                                <option value="2">Anket Veren</option>
+                                                <option value="1">Anket Dolduran</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Soru Seçenek Tipini Seçiniz</label>
+                                            <select name="soru_secenek_tipi" type="text" class="form-control">
+                                                <option value="">Seçiniz</option>
+                                                <option value="2">Radio Buton</option>
+                                                <option value="1">Seçim Kutusu</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Seçenek Ekle</label>
-                                            <button class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Radio Buton</button>
-                                            <button class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Select Metni</button>
+                                            <button type="button" id="secenekEkle" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Ekle</button>
+                                            <div id="soruSecenek"></div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
-                                <button type="button" class="btn btn-primary" onclick="sssEkle.submit()">Ekle</button>
+                                <button type="button" class="btn btn-primary" onclick="soruEkle.submit()">Ekle</button>
                             </div>
                         </div>
                     </div>
@@ -65,16 +73,27 @@
                         <th>Soru Tipi</th>
                         <th>İşlemler</th>
                     </tr>
+                    @foreach($sorular as $soru)
                         <tr>
-                            <td>1</td>
-                            <td>Deneme Sorusu</td>
-                            <td>Seçenekler</td>
-                            <td>Anket Dolduran</td>
+                            <td>{{ $soru->id }}</td>
+                            <td>{{ $soru->soru_metni }}</td>
+                            <td>{!! $FunctionController::soruSecenekleri($soru->id) !!}</td>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#soruDuzenle" onclick="guncelle()" class="btn btn-flat btn-xs btn-success"><i class="fa fa-edit"></i></a>
-                                <a href="#" onclick="sil.submit()" class="btn btn-flat btn-xs btn-danger"><i class="fa fa-remove"></i></a>
+                                @if($soru->tip==2)
+                                    Anket Veren
+                                @else
+                                    Anket Dolduran
+                                @endif
+                            </td>
+                            <form name="sil{{ $soru->id }}" method="post" action="{{ URL::to('admin/soru/'.$soru->id) }}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                {{ csrf_field() }}
+                            </form>                            <td>
+                                <a href="#" style="display: none;" data-toggle="modal" data-target="#soruDuzenle" onclick="guncelle({{ $soru->id }})" class="btn btn-flat btn-xs btn-success"><i class="fa fa-edit"></i></a>
+                                <a href="#" onclick="sil{{ $soru->id }}.submit()" class="btn btn-flat btn-xs btn-danger"><i class="fa fa-remove"></i></a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody></table>
             </div>
         </div>
@@ -89,24 +108,47 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Yeni Seçenek Ekle</h4>
+                    <h4 class="modal-title" id="myModalLabel">Soru Düzenle</h4>
                 </div>
                 <div class="modal-body">
                     <div id="soruLoading"></div>
-                    <form id="sssDuzenle" role="form" action="{{ URL::to('admin/sss') }}" method="post" name="sssDuzenle">
+                    <form id="soruDuzenle" role="form" action="{{ URL::to('admin/soru') }}" method="post" name="soruDuzenle">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
+
                         <div class="box-body">
                             <div class="form-group">
-                                <label>Mesleği Yazınız</label>
-                                <input id="soruDuzenMetin" name="soruDuzenMetin" type="text" class="form-control">
+                                <label>Soru Metnini Yazınız</label>
+                                <input id="soru_metni" name="soru_metni" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Soru Tipini Seçiniz</label>
+                                <select name="soru_tipi" id="soru_tipi" type="text" class="form-control">
+                                    <option value="">Seçiniz</option>
+                                    <option value="2">Anket Veren</option>
+                                    <option value="1">Anket Dolduran</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Soru Seçenek Tipini Seçiniz</label>
+                                <select name="soru_secenek_tipi" id="soru_secenek_tipi" type="text" class="form-control">
+                                    <option value="">Seçiniz</option>
+                                    <option value="2">Radio Buton</option>
+                                    <option value="1">Seçim Kutusu</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Seçenek Ekle</label>
+                                <button type="button" id="secenekEkle" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Ekle</button>
+                                <div id="soruSecenek"></div>
                             </div>
                         </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
-                    <button type="button" class="btn btn-primary" onclick="sssDuzenle.submit()">Güncelle</button>
+                    <button type="button" class="btn btn-primary" onclick="soruDuzenle.submit()">Güncelle</button>
                 </div>
             </div>
         </div>
@@ -119,7 +161,7 @@
         $.ajax({
             type:'POST',
             data:"_method=GET&id="+id,
-            url:'{{ URL::to('admin/sss/') }}/'+id,
+            url:'{{ URL::to('admin/soru/') }}/'+id,
             success:function(gelen){
                $('#soruDuzenMetin').val(gelen.soru_metni);
                 CKEDITOR.instances.soruDuzenCevap.setData( gelen.soru_cevabi );
@@ -129,6 +171,15 @@
             }
         });
     }
+    $(document).ready(function () {
+        var i = 0;
+        $("#secenekEkle").click(function () {
+            $("#soruSecenek").append("<div class='alert alert-info'>" +
+                    "<label>Seçenek Metni</label>: <input class='form-control' type='text' name='secenek[]' placeholder='Seçenek Metnini Yazınız'>" +
+                    "</div>");
+        });
+    });
+
     </script>
     <script>
         CKEDITOR.replace( 'soru_cevabi' );

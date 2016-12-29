@@ -33,7 +33,7 @@ class PanelController extends Controller
                     ->where('doldurulmus_anketler.uye_id', '=', Auth::user()->id)
                     ->get();
                 $aktifAnket = DB::table('anketler')->whereRaw('anket_durum=1 and anket_katilim_sayisi < anket_limit')->count();
-                $toplamPara = DB::select(DB::raw('select sum(miktar) as toplam from para_aktarim_istekleri where user_id='.Auth::user()->id.' and durum=2'));
+                $toplamPara = DB::select(DB::raw('select sum(miktar) as toplam from para_aktarim_istekleri where user_id='.Auth::user()->id.' and (durum=2 or durum=0)'));
                 $pIstekler = DB::table('para_aktarim_istekleri')->where('user_id',Auth::user()->id)->get();
                 return view('panel.panel', ['tip'=>1,'dAnketler' => $doldurulmusAnket, 'aktifAnket' => $aktifAnket, 'toplamPara' => $toplamPara, 'pIstekler'=>$pIstekler]);
             }
@@ -71,13 +71,10 @@ class PanelController extends Controller
         and anketler.anket_katilim_sayisi < anketler.anket_limit
         and
         (
-            anketler.anket_konum=''
-            or
-            (
-                anketler.anket_konum='" . Input::get('konum') . "'
-            )
+            anketler.anket_konum = '' or anketler.anket_konum='" . Input::get('konum') . "'
         ) order by anketler.id desc
         ";
+
         $veriler = DB::select(DB::raw($sql));
        return view('panel.anketler',['FunctionController'=>new FunctionController(),'veriler'=>$veriler]);
     }

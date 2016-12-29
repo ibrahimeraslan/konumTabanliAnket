@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\admin\FunctionController;
-use App\Http\Middleware\admin;
-use App\UyelikSoru;
+use App\SSS;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Input;
 use Redirect;
-use DB;
 
-class soruController extends Controller
+class sssController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +18,7 @@ class soruController extends Controller
      */
     public function index()
     {
-        return view('admin.soru',['sorular'=>UyelikSoru::all(),'FunctionController'=>new FunctionController()]);
+        return view('admin.sss',['sorular'=>SSS::all()]);
     }
 
     /**
@@ -32,10 +29,8 @@ class soruController extends Controller
     public function create()
     {
         $rules = array(
-            'soru_metni'  => 'required|min:5',
-            'soru_tipi' => 'required|numeric',
-            'soru_secenek_tipi' => 'required|numeric',
-            'secenek' => 'required',
+            'soru_metni'  => 'required|min:3|max:250',
+            'soru_cevabi' => 'required|min:10',
         );
         $validator = Validator::make(Input::all(), $rules);
         if ($validator->fails()) {
@@ -43,24 +38,12 @@ class soruController extends Controller
             return Redirect::back()
                 ->withErrors($validator);
         } else {
-            $durum = UyelikSoru::create([
-                'soru_metni'=>Input::get('soru_metni'),
-                'tip'=>Input::get('soru_tipi'),
-                'soru_tip'=>Input::get('soru_secenek_tipi'),
+            SSS::create([
+                'soru_metni' => Input::get('soru_metni'),
+                'soru_cevabi' => Input::get('soru_cevabi'),
             ]);
-            if(!$durum){
-                return Redirect::back()
-                    ->withErrors("Hat Oluştu");
-            }else{
-                $sec = Input::get('secenek');
-                foreach ($sec as $secenek){
-                    DB::table('uyelik_soru_secenekleri')->insert([
-                        'soru_id'=>$durum->id,
-                        'cevap_metni'=>$secenek
-                    ]);
-                }
-                return Redirect::back()->with('status','İşleminiz Başarıyla Gerçekleştirildi.');
-            }
+            return Redirect::back()
+                ->with('status','Soru Başarıyla Eklenmiştir.');
         }
     }
 
@@ -83,7 +66,7 @@ class soruController extends Controller
      */
     public function show($id)
     {
-        //
+        return SSS::where('id',$id)->first();
     }
 
     /**
@@ -106,7 +89,23 @@ class soruController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = array(
+            'soruDuzenMetin'  => 'required|min:3|max:250',
+            'soruDuzenCevap' => 'required|min:10',
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            return Redirect::back()
+                ->withErrors($validator);
+        } else {
+            SSS::where('id',$id)->update([
+                'soru_metni' => Input::get('soruDuzenMetin'),
+                'soru_cevabi' => Input::get('soruDuzenCevap'),
+            ]);
+            return Redirect::back()
+                ->with('status','Soru Başarıyla Güncellenmiştir.');
+        }
     }
 
     /**
@@ -117,8 +116,8 @@ class soruController extends Controller
      */
     public function destroy($id)
     {
-        UyelikSoru::where('id',$id)->delete();
-        DB::table('uyelik_soru_secenekleri')->where('soru_id',$id)->delete();
-        return Redirect::back()->with('status','İşleminiz Başarıyla Gerçekleştirildi.');
+        SSS::where('id',$id)->delete();
+        return Redirect::back()
+            ->with('status','Soru Başarıyla Silinmiştir.');
     }
 }

@@ -12,6 +12,7 @@ class WelcomeController extends Controller
         $countNormalUser = User::where('tip',1)->count();
         $countSurveyUser = User::where('tip',2)->count();
         $countSurvey = DB::table('anketler')->count();
-        return view('welcome',['countNormalUser'=>$countNormalUser,'countSurveyUser'=>$countSurveyUser,'countSurvey'=>$countSurvey]);
+        $odeme = DB::table('para_aktarim_istekleri')->where('durum',2)->count();
+        return view('welcome',['countNormalUser'=>$countNormalUser,'countSurveyUser'=>$countSurveyUser,'countSurvey'=>$countSurvey,'odeme'=>$odeme]);
     }
 }

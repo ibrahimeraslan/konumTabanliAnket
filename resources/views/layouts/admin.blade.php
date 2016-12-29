@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="{{ asset('adminTheme/dist/css/AdminLTE.min.css') }}">
   <link rel="stylesheet" href="{{ asset('adminTheme/dist/css/skins/skin-blue.min.css') }}">
+  <script src="{{ asset('adminTheme/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
 
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -126,7 +127,6 @@
   <div class="control-sidebar-bg"></div>
 </div>
 
-<script src="{{ asset('adminTheme/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
 <script src="{{ asset('adminTheme/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('adminTheme/dist/js/app.min.js') }}"></script>
 </body>

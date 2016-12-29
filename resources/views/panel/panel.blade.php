@@ -174,7 +174,7 @@
                                                 @if($pIstek->durum==0)
                                                     <span class="label label-warning">Kontrol Ediliyor</span>
                                                 @elseif($pIstek->durum==1)
-                                                    <span class="label label-danger">Red Edildi!<br/>{{ $pIstek->mesaj }}</span>
+                                                    <span class="label label-danger">Red Edildi!, <b>{{ $pIstek->mesaj }}</b></span>
                                                 @elseif($pIstek->durum==2)
                                                     <span class="label label-tertiary">Aktarıldı</span>
                                                 @endif

@@ -148,7 +148,7 @@
                         </div>
                         <div class="col-md-3 col-sm-6">
                             <div class="counter">
-                                <strong data-to="178" data-append="+">178</strong>
+                                <strong data-to="{{ $odeme }}" data-append="+">{{ $odeme }}</strong>
                                 <label>Yapılan Ödeme</label>
                             </div>
                         </div>
